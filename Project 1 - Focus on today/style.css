@@ -34,7 +34,7 @@ h1{
 .progress-label{
   font-size: 14px;
   color: rgba(133, 133, 133, 1);
-  margin: 18px 0;
+  margin: 20px 0;
 }
 .progress-bar{
   height: 30px;
@@ -57,8 +57,34 @@ h1{
   font-weight: 400;
   font-size: 14px;
   color: rgba(255, 81, 81, 1);
-
+  margin-block: 20px;
 }
+.goal-container{
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 17px;
+  padding: 22px;
+  background-color: #fff;
+}
+.custom-checkbox{
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(97,72,28,0.3);
+  display: inline-block;
+  vertical-align: middle;
+}
+.goal-input{
+  border: none;
+  font-family: inherit;
+  margin-left: 20px;
+  font-size: 16px;
+  outline: none;
+}
+.goal-container::placeholder{
+  color: rgba(217, 217, 217, 1);
+}
+
+
 @media (max-width : 768px){
   .title {
     font-size: 32px;
