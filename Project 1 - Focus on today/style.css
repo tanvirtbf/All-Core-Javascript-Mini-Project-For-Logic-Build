@@ -6,6 +6,10 @@
 body{
   background-color: rgba(72, 163, 0, 0.07);
   font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+main{
+  padding: 0 16px;
 }
 h1{
   font-size: 64px;
@@ -22,4 +26,17 @@ h1{
   border-radius: 15px;
   padding: 32px 48px;
   box-shadow: 0 0 8px 0px rgba(0,0,0,0.1);
+}
+.sun-icon{
+  vertical-align: middle;
+  margin-left: 16px;
+}
+
+@media (max-width : 768px){
+  .title {
+    font-size: 32px;
+  }
+  .app-container{
+    padding : 16px 32px;
+  }
 }
