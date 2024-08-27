@@ -89,6 +89,7 @@ h1{
   align-self: stretch;
   width: 100%;
   font-weight: 500;
+  background-color: #48A300;
 }
 .goal-container::placeholder{
   color: rgba(217, 217, 217, 1);
