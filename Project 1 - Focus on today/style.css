@@ -51,6 +51,11 @@ h1{
   border: 1px solid rgba(128, 128, 128, 0.548);
   border-radius: 5px;
 }
+
+.afterActive{
+  text-decoration: line-through;
+  color: green
+}
 .circle{
   width: 20px;
   height: 20px;

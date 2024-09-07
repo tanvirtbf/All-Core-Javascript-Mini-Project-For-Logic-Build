@@ -46,12 +46,19 @@ circle.forEach((item,index)=>{
           xyz.isActive = !xyz.isActive
         }
       })
-      inputArray.map((abc)=>{
-        
-      })
     }
+
+    inputArray.map((inp,i)=>{
+      if(inp.isActive){
+        circle[i].style.backgroundColor = 'green'
+      }else{
+        circle[i].style.backgroundColor = 'white'
+      }
+    })
+
   })
 })
+
 
 
 
