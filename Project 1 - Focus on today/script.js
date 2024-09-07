@@ -3,6 +3,7 @@ const secondGoal = document.querySelector('#input2')
 const thirdGoal = document.querySelector('#input3')
 
 const circle = document.querySelectorAll('.circle')
+const input = document.querySelectorAll('input')
 const error = document.querySelector('.error')
 
 // function setLocalStorage(obj){
@@ -49,10 +50,12 @@ circle.forEach((item,index)=>{
     }
 
     inputArray.map((inp,i)=>{
-      if(inp.isActive){
+      if(inp.isActive && inputArray[0].text && inputArray[1].text && inputArray[2].text){
         circle[i].style.backgroundColor = 'green'
-      }else{
+        input[i].classList.add('afterActive')
+      }else if(!inp.isActive && inputArray[0].text && inputArray[1].text && inputArray[2].text){
         circle[i].style.backgroundColor = 'white'
+        input[i].classList.remove('afterActive')
       }
     })
 
