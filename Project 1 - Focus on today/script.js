@@ -5,7 +5,7 @@ const thirdGoal = document.querySelector('#input3')
 const circle = document.querySelectorAll('.circle')
 const input = document.querySelectorAll('input')
 const error = document.querySelector('.error')
-
+const bar = document.querySelector('.bar')
 // function setLocalStorage(obj){
 //   const stringConvert = JSON.stringify(obj)
 //   localStorage.setItem('focusObj',stringConvert)
@@ -35,9 +35,14 @@ thirdGoal.addEventListener('input',(e)=>{
   inputArray[2].text = e.target.value
 })
 
+
+
 circle.forEach((item,index)=>{
   console.log(item)
   item.addEventListener('click',()=>{
+
+    let barWidth = 0;
+
     if(inputArray[0].text===''||inputArray[1].text===''||inputArray[2].text===''){
       error.style.display = 'block'
     }else{
@@ -59,8 +64,28 @@ circle.forEach((item,index)=>{
       }
     })
 
+    inputArray.map((item)=>{
+      if(item.isActive){
+        barWidth += 1
+      }
+    })
+
+    if(barWidth===1){
+      bar.style.width = '33.3%'
+    }else if(barWidth===2){
+      bar.style.width = '66.7%'
+    }else if(barWidth===3){
+      bar.style.width = '100%'
+    }else{
+      bar.style.width = '0'
+    }
+
   })
 })
+
+
+
+
 
 
 
