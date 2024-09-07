@@ -6,39 +6,48 @@ const circle = document.querySelectorAll('.circle')
 const input = document.querySelectorAll('input')
 const error = document.querySelector('.error')
 const bar = document.querySelector('.bar')
-// function setLocalStorage(obj){
-//   const stringConvert = JSON.stringify(obj)
-//   localStorage.setItem('focusObj',stringConvert)
-// }
-// function getLocalStorage(obj){
-//   const objectConvert = JSON.parse(localStorage.getItem('focusObj'))
-//   return objectConvert
-// }
 
-const inputArray = [
+
+
+function setLocalStorage(obj){
+  const stringConvert = JSON.stringify(obj)
+  localStorage.setItem('focusObj',stringConvert)
+}
+function getLocalStorage(obj){
+  const objectConvert = JSON.parse(localStorage.getItem('focusObj'))
+  return objectConvert
+}
+
+function setLocalVariable(v){
+  localStorage.setItem('barWidth',v)
+}
+function getLocalVariable(v){
+  return localStorage.getItem('barWidth')
+}
+
+let inputArray = [
   {id: 1, text : '', isActive : false},
   {id: 2, text : '', isActive : false},
   {id: 3, text : '', isActive : false},
 ]
 
-// inputObj.firstInput = getLocalStorage(inputObj).firstInput
-// inputObj.secondInput = getLocalStorage(inputObj).secondInput
-// inputObj.thirdInput = getLocalStorage(inputObj).thirdInput
 
 firstGoal.addEventListener('input',(e)=>{
   inputArray[0].text = e.target.value
+  setLocalStorage(inputArray)
 })
 secondGoal.addEventListener('input',(e)=>{
   inputArray[1].text = e.target.value
+  setLocalStorage(inputArray)
 })
 thirdGoal.addEventListener('input',(e)=>{
   inputArray[2].text = e.target.value
+  setLocalStorage(inputArray)
 })
 
 
-
 circle.forEach((item,index)=>{
-  console.log(item)
+
   item.addEventListener('click',()=>{
 
     let barWidth = 0;
@@ -80,9 +89,22 @@ circle.forEach((item,index)=>{
       bar.style.width = '0'
     }
 
+    setLocalVariable(barWidth)
+
   })
 })
 
+setTimeout(()=>{
+  const [a,b,c] = getLocalStorage(inputArray) 
+  if(a && b && c){
+    firstGoal.value = a.text
+    secondGoal.value = b.text
+    thirdGoal.value = c.text
+  }
+
+  inputArray = getLocalStorage(inputArray)
+
+})
 
 
 
