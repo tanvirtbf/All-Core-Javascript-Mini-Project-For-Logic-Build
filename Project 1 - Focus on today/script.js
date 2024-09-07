@@ -1,114 +1,95 @@
-const firstGoal = document.querySelector('#input1')
-const secondGoal = document.querySelector('#input2')
-const thirdGoal = document.querySelector('#input3')
+const checkBoxList = document.querySelectorAll('.custom-checkbox')
+const inputFields = document.querySelectorAll('.goal-input')
+const errorLabel = document.querySelector('.error-label')
+const progressLabel = document.querySelector('.progress-label')
+const progressBar = document.querySelector('.progress-bar')
+const progressValue = document.querySelector('.progress-value')
 
-const circle = document.querySelectorAll('.circle')
-const input = document.querySelectorAll('input')
-const error = document.querySelector('.error')
-const bar = document.querySelector('.bar')
-
-
-
-function setLocalStorage(obj){
-  const stringConvert = JSON.stringify(obj)
-  localStorage.setItem('focusObj',stringConvert)
-}
-function getLocalStorage(obj){
-  const objectConvert = JSON.parse(localStorage.getItem('focusObj'))
-  return objectConvert
-}
-
-function setLocalVariable(v){
-  localStorage.setItem('barWidth',v)
-}
-function getLocalVariable(v){
-  return localStorage.getItem('barWidth')
-}
-
-let inputArray = [
-  {id: 1, text : '', isActive : false},
-  {id: 2, text : '', isActive : false},
-  {id: 3, text : '', isActive : false},
+const allQuotes = [
+  'Raise the bar by completing your goals!',
+  'Well begun is half done!',
+  'Just a step away, keep going!',
+  'Whoa! You just completed all the goals, time for chill :D',
 ]
 
+// const allGoals = JSON.parse(localStorage.getItem('allGoals')) || {
+//   first: {
+//     name: '',
+//     completed: false,
+//   },
+//   second: {
+//     name: '',
+//     completed: false,
+//   },
+//   third: {
+//     name: '',
+//     completed: false,
+//   },
+// }
 
-firstGoal.addEventListener('input',(e)=>{
-  inputArray[0].text = e.target.value
-  setLocalStorage(inputArray)
-})
-secondGoal.addEventListener('input',(e)=>{
-  inputArray[1].text = e.target.value
-  setLocalStorage(inputArray)
-})
-thirdGoal.addEventListener('input',(e)=>{
-  inputArray[2].text = e.target.value
-  setLocalStorage(inputArray)
-})
+const allGoals = JSON.parse(localStorage.getItem('allGoals')) || {}
 
+let completedGoalsCount = Object.values(allGoals).filter(
+  (goal) => goal.completed
+).length
 
-circle.forEach((item,index)=>{
+progressValue.style.width = `${(completedGoalsCount / inputFields.length) * 100}%`
+progressValue.firstElementChild.innerText = `${completedGoalsCount}/${inputFields.length} completed`
+progressLabel.innerText = allQuotes[completedGoalsCount]
 
-  item.addEventListener('click',()=>{
-
-    let barWidth = 0;
-
-    if(inputArray[0].text===''||inputArray[1].text===''||inputArray[2].text===''){
-      error.style.display = 'block'
-    }else{
-      error.style.display = 'none'
-      inputArray.map((xyz)=> {
-        if(xyz.id===index+1){
-          xyz.isActive = !xyz.isActive
-        }
-      })
-    }
-
-    inputArray.map((inp,i)=>{
-      if(inp.isActive && inputArray[0].text && inputArray[1].text && inputArray[2].text){
-        circle[i].style.backgroundColor = 'green'
-        input[i].classList.add('afterActive')
-      }else if(!inp.isActive && inputArray[0].text && inputArray[1].text && inputArray[2].text){
-        circle[i].style.backgroundColor = 'white'
-        input[i].classList.remove('afterActive')
-      }
+checkBoxList.forEach((checkbox) => {
+  checkbox.addEventListener('click', (e) => {
+    const allGoalsAdded = [...inputFields].every(function (input) {
+      return input.value
     })
 
-    inputArray.map((item)=>{
-      if(item.isActive){
-        barWidth += 1
-      }
-    })
+    if (allGoalsAdded) {
+      checkbox.parentElement.classList.toggle('completed')
+      const inputId = checkbox.nextElementSibling.id
+      allGoals[inputId].completed = !allGoals[inputId].completed
+      completedGoalsCount = Object.values(allGoals).filter(
+        (goal) => goal.completed
+      ).length
 
-    if(barWidth===1){
-      bar.style.width = '33.3%'
-    }else if(barWidth===2){
-      bar.style.width = '66.7%'
-    }else if(barWidth===3){
-      bar.style.width = '100%'
-    }else{
-      bar.style.width = '0'
+      progressValue.style.width = `${(completedGoalsCount / inputFields.length) * 100}%`
+      progressValue.firstElementChild.innerText = `${completedGoalsCount}/${inputFields.length} completed`
+      progressLabel.innerText = allQuotes[completedGoalsCount]
+
+      localStorage.setItem('allGoals', JSON.stringify(allGoals))
+    } else {
+      progressBar.classList.add('show-error')
     }
-
-    setLocalVariable(barWidth)
-
   })
 })
 
-setTimeout(()=>{
-  const [a,b,c] = getLocalStorage(inputArray) 
-  if(a && b && c){
-    firstGoal.value = a.text
-    secondGoal.value = b.text
-    thirdGoal.value = c.text
+inputFields.forEach((input) => {
+  if (allGoals[input.id]) {
+    input.value = allGoals[input.id].name
+
+    if (allGoals[input.id].completed) {
+      input.parentElement.classList.add('completed')
+    }
   }
 
-  inputArray = getLocalStorage(inputArray)
+  input.addEventListener('focus', () => {
+    progressBar.classList.remove('show-error')
+  })
 
+  input.addEventListener('input', (e) => {
+    if (allGoals[input.id] && allGoals[input.id].completed) {
+      input.value = allGoals[input.id].name
+      return
+    }
+
+    if (allGoals[input.id]) {
+      allGoals[input.id].name = input.value
+    } else {
+      allGoals[input.id] = {
+        name: input.value,
+        completed: false,
+      }
+    }
+
+    localStorage.setItem('allGoals', JSON.stringify(allGoals))
+  })
 })
-
-
-
-
-
-
-
